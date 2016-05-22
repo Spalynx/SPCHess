@@ -1,0 +1,14 @@
+Version 1.0:
+	Initial board, and player turn set up.
+	Might make the board public so as to allow an interface wrapper later.
+
+
+
+Possible Changes:
+	Add character behavior, so as to disallow invalid movements.
+	Allow, en passe and castling, probably not too horribly hard.
+	Actually look up in depth chess rules.
+	Allow the user admin options to change the board without using their turn.
+	Allow a -h option to each piece which will highlight all movement
+options on the board.
+	

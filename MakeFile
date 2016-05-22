@@ -1,0 +1,24 @@
+#Vars for readability
+CMD = g++
+CMFLAG = -Wall -std=c++11
+TARG = Chess
+
+#Targets for exe file.
+$(TARG): $(TARG).o
+	$(CMD) $(TARG).o $(CMFLAG) -o $(TARG)
+$(TARG).o: $(TARG).cpp
+	$(CMD) $(TARG).cpp $(CMFLAG) -c
+clean:
+	del /q *.o
+spal:
+	cls
+	make
+	make clean
+	cls 
+	$(TARG)
+run:
+	make
+	cls
+	$(TARG)
+text:
+	$(TARG) >> $(TARG).txt

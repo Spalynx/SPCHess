@@ -4,10 +4,13 @@ CMFLAG = -Wall -std=c++11
 TARG = Chess
 
 #Targets for exe file.
-$(TARG): $(TARG).o
-	$(CMD) $(TARG).o $(CMFLAG) -o $(TARG)
-$(TARG).o: $(TARG).cpp
-	$(CMD) $(TARG).cpp $(CMFLAG) -c
+$(TARG): $(TARG).o Board.o
+	$(CMD) $(CMFLAG) -o $(TARG) $(TARG).o Board.o
+$(TARG).o: $(TARG).cpp Board.hpp
+	$(CMD) $(CMFLAG) -c $(TARG).cpp Board.hpp
+Board.o: Board.cpp Board.hpp
+	$(CMD) $(CMFLAG) -c Board.hpp Board.cpp
+
 clean:
 	del /q *.o
 spal:

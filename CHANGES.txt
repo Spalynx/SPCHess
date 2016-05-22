@@ -9,6 +9,5 @@ Possible Changes:
 	Allow, en passe and castling, probably not too horribly hard.
 	Actually look up in depth chess rules.
 	Allow the user admin options to change the board without using their turn.
-	Allow a -h option to each piece which will highlight all movement
-options on the board.
+	Allow a -h option to each piece which will highlight all movement options on the board.
 	

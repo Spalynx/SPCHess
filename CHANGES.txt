@@ -1,7 +1,10 @@
 Version 1.0:
 	Initial board, and player turn set up.
 	Might make the board public so as to allow an interface wrapper later.
-
+Version 1.1:
+	Single chess file split into 3 files: chess.cpp, board.hpp, board.cpp.
+	All three documents doxygen documented.
+	Added the fledglings of command options for input.
 
 
 Possible Changes:

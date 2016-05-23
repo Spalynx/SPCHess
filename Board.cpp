@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Board.hpp"
-
+#include <cmath>
 
 Board::Board(){
 	//filling with empty chars 
@@ -85,12 +85,90 @@ bool Board::move(std::string to, std::string move){
 	//Grabs the references of the piece and where it's going, and
 	//	places the piece in the new place.
 	f_r--; m_r--;
-
-	//Fills <from> with value of <to> and empties <to>
-	board[m_r][m_c] = board[f_r][f_c];
-	board[f_r][f_c] = '-';	
 	
-	return true;
+	/* Checks to see if the given move is correct. */
+
+	if( board[f_r][f_c] == '-' ) //If it's blank, return false.
+		return false;
+	else if( canMove(f_r, f_c, m_r, m_c) ){ //Correct case.
+		//Fills <from> with value of <to> and empties <to>
+		board[m_r][m_c] = board[f_r][f_c];
+		board[f_r][f_c] = '-';	
+		
+		return true;
+	}
+	else	return false; //Everything else is invalid.
+}
+
+bool Board::canMove(int fr, int fc, int mr, int mc){
+	//Checks to see if the item is within 0-7 bounds.
+	auto within_bounds = [&](int coord){
+		if ( coord > 0 && coord  <= 7)
+			return true;
+		else return false;
+	};	
+
+	/** THIS FUNCTION NEEDS A BUNCH OF WORK.
+	 * TODO: Implement black/white side based movement.
+	 * TODO: Implement en passe.
+	 * TODO: Implement castling.
+	 * TODO: Excluding knight, check for unwanted collisions.	
+	 */
+
+	//Application of the lambda, Checks if all params are within bounds.
+	if (!within_bounds(fr) && !within_bounds(fc) 
+		&& !within_bounds(mr) && !within_bounds(mc))
+		return false;
+
+	//----------Pawns----------------
+	if(board[fr][fc] == 'P'){
+		//Sadly, until turn based piece rules are checked,
+		//pawns are only checked to move 1 at a time.
+		if( abs(fr-mr) > 0 && abs(fr-mr) <= 1 )
+			return true;
+		else return false;
+		//TODO: Starter 2 mvmt, en passe, etc.
+	}
+	//----------Bishop---------------
+	else if(board[fr][fc] == 'B'){
+		//Checks if slope is 1 (diagonal).
+		if ( abs(fr - mr) == abs(fc - mc) )
+			return true;
+		else return false;
+	}
+	//----------Knight---------------
+	else if(board[fr][fc] == 'K'){
+		//Checks if one side is 3 long, and the other is 1 long.
+		if ( (abs(fr - mr) == 2 || abs(mr - fr) == 2)
+			&& (abs(fc - mc) == 1 || abs(mc - fc) == 1) )
+			return true;
+		else return false;
+	}
+	//------------Rook---------------
+	else if(board[fr][fc] == 'R'){
+		//If there is no mvmt in y xor x, then mvmt is horiz/vert.
+		 if ( fr - mr == 0 || fc - mc == 0)
+			 return true;
+		 else return false;
+	}
+	//------------Queen--------------
+	else if(board[fr][fc] == 'Q'){
+		//If the slope of mvmt is 1, or there is no change in x or y.
+		if ( (abs(fr-mr) == abs(fc-mc)) || (fr-mr == 0) || (fc-mc == 0) )
+			return true;
+		else return false;
+	}
+	//-------------King--------------
+	else if(board[fr][fc] == 'U'){
+		//If only a 1 block movement is made.
+		if ( abs(fr-mr) <= 1 && abs(fc-mc) <= 1)
+		       return true;
+ 		else return false;		
+		//TODO: Castling.
+	}
+	else	return false;
+
+	return false; //Don't want any unpermitted cases to make it through.
 }
 
 std::string Board::padded(char fmt){

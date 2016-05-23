@@ -8,7 +8,7 @@
 		Admittedly, all chess pieces are controlled by this class, so the scheme hardly fits. The board 
 		holds the ability to move pieces, and contains the movement rules of each piece.
  *	@author Spalynx
- *	@version v.1.0.0
+ *	@version v.1.1.0
  */
 class Board {
 public:
@@ -38,9 +38,20 @@ public:
 	 *	@param to The coordinate piece that will be moved.
 	 *	@param move The coordinate that piece will be moved to.
 	 *	@return If the movement is valid or not.
-	 *	@see pieceRules()
+	 *	@see canMove()
 	 */
 	bool move(std::string to, std::string move);
+
+	/** \brief Recieves coords of movement, and checks to see if the given
+	 *	move is correct. If so the function returns true, and moves
+	 *		the piece.
+	 *	@param f_r Piece to move row location.
+	 *	@param f_c Piece to move column location.
+	 *	@param m_r Coordinate to recieve piece row location.
+	 *	@param m_c Coordinate to recieve piece column location.
+	 *	@return Whether the movement given was correct.
+	 */
+	bool canMove(int fr, int fc, int mr, int mc);
 
 	/** \brief Pads a character so as to streamline output in the ostream operator.
 	 *	@param fmt the char to surround with padding.

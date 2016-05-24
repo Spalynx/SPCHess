@@ -1,14 +1,15 @@
 #include <iostream>
 #include <iomanip>
 
-#ifndef NAME_H
-#define NAME_H
+#ifndef BOARD_HPP
+#define BOARD_HPP
 
 /** @brief This class is an emulation of a chess board and pieces.
 		Admittedly, all chess pieces are controlled by this class, so the scheme hardly fits. The board 
 		holds the ability to move pieces, and contains the movement rules of each piece.
  *	@author Spalynx
- *	@version v.1.1.0
+ *	@since v.1.0.0-5.17.16
+		Last Edit: 1.2.1
  */
 class Board {
 public:

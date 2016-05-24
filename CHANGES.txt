@@ -1,16 +1,24 @@
 Version 1.0:
 	Initial board, and player turn set up.
 	Might make the board public so as to allow an interface wrapper later.
+
 Version 1.1:
 	Single chess file split into 3 files: chess.cpp, board.hpp, board.cpp.
 	All three documents doxygen documented.
 	Added the fledglings of command options for input.
-Version 1.2:
-	Specified rules for each piece in chess, excluding en passant and
-castling.
+
+Version 1.2: 5.23.16
+	Specified rules for each piece in chess, excluding 
+		en passant and castling.
 	Player does not lose turn if they place the wrong turn.
 
-Possible Changes:
+Version 1.2.1: 5.24.16
+	Added Piece class which is slated to replace the chars in the 8x8 board array.
+		The class contains canMove, what side it's on, etc.
+	This change allows additions of metadata without constant parsing of each array index.
+	Probably going to set up a feature branch, because after documenting the code: major deletions are due.
+	
+Possible Changes: ------------------------------------------------------------------------------------------
 	Add character behavior, so as to disallow invalid movements.
 	Allow, en passe and castling, probably not too horribly hard.
 	Actually look up in depth chess rules.

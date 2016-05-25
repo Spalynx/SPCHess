@@ -4,20 +4,26 @@
 /** @brief This is the actual game system of the program. This might become it's own class
 		or struct, but for now, it's just a small wrapper for the board class.
  *	@author Spalynx
- *	@version v.1.1.0
+ *	@version v.1.2.0
+ *		Update 1.2	5/23/16
  */
 void run_game();
 
 //------Entry point - Main-------
 int main(){
+	system("pause");
 	run_game();
 	return 0;
 }
 
-
-
 //------------------------------
+/* http://programmers.stackexchange.com/questions/84071/is-it-better-to-document-functions-in-the-header-file-or-the-source-file
+	My view...
 
+	#	Document how to use the function in the header file, or more accurately close to the declaration.
+	#	Document how the function works (if it's not obvious from the code) in the source file, or 
+		more accurately, close to the definition.
+*/
 
 
 void run_game(){

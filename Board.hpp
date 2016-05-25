@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include "Piece.hpp"
 
 #ifndef BOARD_HPP
 #define BOARD_HPP
@@ -43,17 +44,6 @@ public:
 	 */
 	bool move(std::string to, std::string move);
 
-	/** \brief Recieves coords of movement, and checks to see if the given
-	 *	move is correct. If so the function returns true, and moves
-	 *		the piece.
-	 *	@param f_r Piece to move row location.
-	 *	@param f_c Piece to move column location.
-	 *	@param m_r Coordinate to recieve piece row location.
-	 *	@param m_c Coordinate to recieve piece column location.
-	 *	@return Whether the movement given was correct.
-	 */
-	bool canMove(int fr, int fc, int mr, int mc);
-
 	/** \brief Pads a character so as to streamline output in the ostream operator.
 	 *	@param fmt the char to surround with padding.
 	 *	@return Padded character.
@@ -79,7 +69,7 @@ public:
 
   			for (int j = 0; j < bd.COLUMNS-1; j++){ //Iterates COLUMNS times
  				//Prints the items
-    			out << padded(bd.board[i][j]);
+    			out << padded( bd.board[i][j].getType() );
     		} out << std::endl;
     	}
     	draw_border(); //BOTTOM border
@@ -93,6 +83,6 @@ public:
 	}
 
 private:
-	char board [ROWS][COLUMNS]; 	/*!< The underlying board container, a 2d array, 8x8 size. */
+	Piece board [ROWS][COLUMNS]; 	/*!< The underlying board container, a 2d array, 8x8 size. */
 };
 #endif

@@ -24,7 +24,7 @@
  */
 class Piece {
 public:
-	bool verbose_ostream_output = false; /*!< Only used for verbose output in ostream operator.*/
+	static const bool verbose_ostream_output = false; /*!< Only used for verbose output in ostream operator.*/
 
 	/** \brief The constructor fills all of the private variables of the function. If '-' is filled, all
 	 *		of the variables will be emptied.
@@ -37,7 +37,28 @@ public:
 	 *	@see Piece(char,bool)
 	 */
 	Piece(char type, char side);
-	
+	void initialize(char type, bool white);
+	Piece() {
+		makeBlankPiece();
+	}
+	~Piece(){
+		delete &movement_behavior;
+	}
+	/** \brief Copies by value the contents of the Piece, and sets moved to true.
+	 */
+	Piece& operator= (Piece& p){
+		//do the thing!
+		passant				= p.passant;
+		is_white			= p.is_white;
+		piece_type			= p.piece_type;
+		movement_behavior	= p.movement_behavior;
+
+		return p;
+	}
+	bool operator== (char t){
+		return (piece_type == t) ?  true : false;
+	}
+
 	/** \brief OH GOD WHO TOUCHED IT?! This function always turns has_moved to true, therefore has_moved can
 	 *		only be false until this function is called.
 	 */
@@ -45,7 +66,7 @@ public:
 	/** \brief Returns the value of whether the piece has ever been moved before.
 	 *	@return If the piece has been moved or not.
 	 */
-	bool getMoved();
+	bool getMoved() const;
 
 
 	/* \brief An accessor for the piece type. "-" empties all vars in the piece.
@@ -55,7 +76,7 @@ public:
 
 	void setType(char type);
 	/* Returns the character tag of the piece. */
-	char getType();
+	char getType() const;
 
 
 	/* Flips the sides of the piece. */
@@ -63,9 +84,9 @@ public:
 	/*	Returns the boolean value of the piece that answers the question, is_white?
 	 *	(True for white, Falce for black).
 	 */
-	bool getSide();
+	bool getSide() const;
 	/*	Same as getSide, but returns either 'w' or 'b' depending on which side.	 */
-	char getSideChar();
+	char getSideChar() const;
 
 	/**	\brief Makes the piece a '-' piece. This function makes is_white and moved null, and makes can move
 	 *	always return false.
@@ -93,12 +114,16 @@ public:
 	 *		per display of the board. This function also allows verbose output of the board, for
 	 *		saving and reloading usage.
 	 */
-	friend std::ostream& operator<<(std::ostream& out, const Board& bd) {
+	friend std::ostream& operator<<(std::ostream& out, const Piece& bd) {
 		if (verbose_ostream_output) //Addition of metadata planned.
 			out << bd.getSideChar() << bd.getType();
 		else
 			out << bd.getType();
+
+		return out;
 	}
+
+	
 
 private:
 	bool moved, 			/*!< Has the piece ever been moved before? */
@@ -106,7 +131,8 @@ private:
 				is_white;	/*!< Which side are you on? */
 	char piece_type;		/*!< The type of piece this is. [P,K,B,R,N,Q] are options. */
 
-	std::function<bool> movement_behavior;	/*!< A functional object of the behavior that this piece exhibits. */
+	bool (Piece::*movement_behavior) (int,int,int,int);	/*!< A functional object of the behavior that this piece exhibits. */
+
 
 	/** \brief	Contains the properties of whether or not a pawn can move to a place or not.
 	 *	TODO: Specify diagonal capturing, en passant, and 2 space starting.
@@ -136,6 +162,8 @@ private:
 	 *	TODO: Everything. The king needs a lot of work regarding check/checkmate.
 	 */
 	bool kingMove(int piece_r, int piece_c, int to_r, int to_c);
+
+	bool emptyMove(int piece_r, int piece_c, int to_r, int to_c);
 };
 
 #endif

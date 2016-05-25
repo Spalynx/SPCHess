@@ -1,11 +1,12 @@
 #include <iostream>
 #include <functional>
+#include <cmath>
 #include "Piece.hpp"
 
-Piece::Piece(char type, bool white){
+void Piece::initialize(char type, bool white){
 	if (type == '-'){
 		makeBlankPiece();
-		return
+		return;
 	}
 
 	//Else - isn't blank.
@@ -13,7 +14,9 @@ Piece::Piece(char type, bool white){
 	is_white = white;	//white privilege!
 	moved = false;
 
-	switch (type){
+
+	movement_behavior = &pawnMove;
+	/*switch (type){
 		case ('P'):
 			movement_behavior = pawnMove;
 			passant = false;
@@ -33,20 +36,23 @@ Piece::Piece(char type, bool white){
 		case('K'):
 			movement_behavior = kingMove;
 			break;
-	}
-
+	}*/
+}
+Piece::Piece(char type, bool white){
+	initialize(type,white);
 }
 Piece::Piece(char type, char side){
 	if(side == 'W' || side == 'w')
-		this(type, true);
-	else if (side == 'B', side == 'b')
-		this(type, false);
+		initialize(type, true);
+	else if (side == 'B' || side == 'b')
+		initialize(type, false);
 	else 	throw "Wrong side name specified! It's w or b!";
 }
 
+
 void Piece::itMoved()
 {	moved = true;		}
-bool Piece::getMoved()
+bool Piece::getMoved() const
 {	return moved;		}
 
 
@@ -55,16 +61,16 @@ void Piece::setType(char type){
 		makeBlankPiece();
 	else piece_type = type;
 }
-char Piece::getType()
+char Piece::getType() const
 {	return piece_type;	}
 
 
 void Piece::switchSides()
 {	(is_white) ? is_white = false : is_white = true;	}
-bool Piece::getSide()
+bool Piece::getSide() const
 {	return is_white;	}
-char Piece::getSideChar(){
-	if is_white
+char Piece::getSideChar() const{
+	if (is_white)
 		return 'w';
 	else return 'b';
 }
@@ -73,7 +79,7 @@ void Piece::makeBlankPiece(){
 	piece_type 			= '-';
 	is_white 			= NULL;
 	moved 				= NULL;
-	movement_behavior 	= false;
+	movement_behavior 	= emptyMove;
 }
 
 
@@ -83,26 +89,21 @@ bool Piece::canMove(int piece_row, int piece_column, int to_row, int to_column){
 		if ( coord > 0 && coord  <= 7)
 			return true;
 		else return false;
-	};	
-
-
+	};
 	//Application of the lambda, Checks if all params are within bounds.
 	if (!within_bounds(piece_row) && !within_bounds(piece_column) 
 		&& !within_bounds(to_row) && !within_bounds(to_column))
 			return false;
-	//If it's within bounds then the coords
-	return movement_behavior(piece_row, piece_column, to_row, to_column);
-}
 
-friend std::ostream& operator<<(std::ostream& out, const Board& bd) {
-	if (verbose_ostream_output){
-		out << getSideChar() << 
+	//If it's within bounds then the coords
+	return (movement_behavior)(piece_row, piece_column, to_row, to_column);
 	}
-}
 
 bool Piece::pawnMove(int piece_r, int piece_c, int to_r, int to_c){
 	//Sadly, until turn based piece rules are checked,
 	//pawns are only checked to move 1 at a time.
+
+	std::cout << "4"; system("pause");
 	if( abs(piece_r - to_r) > 0 && abs(piece_r - to_r) <= 1 )
 		return true;
 	else return false;
@@ -147,6 +148,9 @@ bool Piece::kingMove(int piece_r, int piece_c, int to_r, int to_c){
 	if ( abs(piece_r-to_r) <= 1 && abs(piece_c-to_c) <= 1)
 	       return true;
 
-		else return false;		
+	else return false;		
 	//TODO: Castling.
+}
+bool Piece::emptyMove(int piece_r, int piece_c, int to_r, int to_c){
+		return false;
 }

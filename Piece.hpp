@@ -19,7 +19,7 @@
  		for the board class, it seems ludicrous for each piece to have control of the board.
  *	@author Spalynx
  *	@since v.1.2.1-5.24.16
- 		Last Edit: 1.2.1
+ 		Last Edit: 1.2.2
  *
  */
 class Piece {
@@ -41,9 +41,6 @@ public:
 	Piece() {
 		makeBlankPiece();
 	}
-	~Piece(){
-		delete &movement_behavior;
-	}
 	/** \brief Copies by value the contents of the Piece, and sets moved to true.
 	 */
 	Piece& operator= (Piece& p){
@@ -51,7 +48,6 @@ public:
 		passant				= p.passant;
 		is_white			= p.is_white;
 		piece_type			= p.piece_type;
-		movement_behavior	= p.movement_behavior;
 
 		return p;
 	}
@@ -110,6 +106,8 @@ public:
 	 */
 	bool canMove(int piece_row, int piece_column, int to_row, int to_column);
 
+	bool movingTime(int pr, int pc, int tr, int tc); //Cmon, grab your friends?
+
 	/** \brief A simple output operator for the piece. This function is meant to be called 64 times
 	 *		per display of the board. This function also allows verbose output of the board, for
 	 *		saving and reloading usage.
@@ -130,9 +128,6 @@ private:
 			passant, 		/*!< If the move is able to be taken en passant. */
 				is_white;	/*!< Which side are you on? */
 	char piece_type;		/*!< The type of piece this is. [P,K,B,R,N,Q] are options. */
-
-	bool (Piece::*movement_behavior) (int,int,int,int);	/*!< A functional object of the behavior that this piece exhibits. */
-
 
 	/** \brief	Contains the properties of whether or not a pawn can move to a place or not.
 	 *	TODO: Specify diagonal capturing, en passant, and 2 space starting.

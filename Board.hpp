@@ -10,7 +10,7 @@
 		holds the ability to move pieces, and contains the movement rules of each piece.
  *	@author Spalynx
  *	@since v.1.0.0-5.17.16
-		Last Edit: 1.2.1
+		Last Edit: 1.2.2
  */
 class Board {
 public:
@@ -69,7 +69,7 @@ public:
 
   			for (int j = 0; j < bd.COLUMNS-1; j++){ //Iterates COLUMNS times
  				//Prints the items
-    			out << padded( bd.board[i][j].getType() );
+    			out << ""<< padded( bd.board[i][j].getType() );
     		} out << std::endl;
     	}
     	draw_border(); //BOTTOM border

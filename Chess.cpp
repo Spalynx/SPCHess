@@ -5,7 +5,7 @@
 		or struct, but for now, it's just a small wrapper for the board class.
  *	@author Spalynx
  *	@version v.1.2.0
- *		Update 1.2	5/23/16
+ *		Update 5/25/16
  */
 void run_game();
 
@@ -34,7 +34,7 @@ void run_game(){
 	
 //~START-SCREEN~~~~~~~~~~~~~~~~~~
 	//Some basic starting information, The rest is shown in the 'h' option.
-	std::cout << "\n\n\n\tSPCH v1.1\n\t\t Some piece rule definitions included (TM)." << std::endl
+	std::cout << "\n\n\n\tSPCH v1.2\n\t\t Some piece rule definitions included (TM)." << std::endl
 			<< "\t\t\tMove Syntax example: a1 b2 or <movefrom>_<moveto>." 
 			<< "\n\t\t\'h\' for help, \'Q\' to exit.\n\n\n" << std::endl;
 	

@@ -82,11 +82,8 @@ bool Board::move(std::string to, std::string move){
 	else if( board[piece_r][piece_c].canMove(piece_r, piece_c, to_r, to_c) ){ //Correct case.
 		//Fills <from> with value of <to> and empties <to>
 
-	std::cout << "1"; system("pause");
 		board[to_r][to_c] = board[piece_r][piece_c];
-	std::cout << "2"; system("pause");
 		board[to_r][to_c] .itMoved();
-	std::cout << "3"; system("pause");
 		board[piece_r][piece_c].setType('-');	
 		
 		return true;

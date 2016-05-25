@@ -13,30 +13,6 @@ void Piece::initialize(char type, bool white){
 	piece_type = type;
 	is_white = white;	//white privilege!
 	moved = false;
-
-
-	movement_behavior = &pawnMove;
-	/*switch (type){
-		case ('P'):
-			movement_behavior = pawnMove;
-			passant = false;
-			break;
-		case('R'):
-			movement_behavior = rookMove;
-			break;
-		case('B'):
-			movement_behavior = bishMove;
-			break;
-		case('Q'):
-			movement_behavior = quenMove;
-			break;
-		case('N'):
-			movement_behavior = nihtMove;
-			break;
-		case('K'):
-			movement_behavior = kingMove;
-			break;
-	}*/
 }
 Piece::Piece(char type, bool white){
 	initialize(type,white);
@@ -79,7 +55,6 @@ void Piece::makeBlankPiece(){
 	piece_type 			= '-';
 	is_white 			= NULL;
 	moved 				= NULL;
-	movement_behavior 	= emptyMove;
 }
 
 
@@ -96,14 +71,34 @@ bool Piece::canMove(int piece_row, int piece_column, int to_row, int to_column){
 			return false;
 
 	//If it's within bounds then the coords
-	return (movement_behavior)(piece_row, piece_column, to_row, to_column);
-	}
+		
+	//std::cout << ((movingTime(piece_row, piece_column, to_row, to_column)) ? "true" : "false"); system("pause"); // I like ternary
 
+	return movingTime(piece_row, piece_column, to_row, to_column);
+
+}
+bool Piece::movingTime(int pr, int pc, int tr, int tc){ //Cmon, grab your friends?
+	switch (piece_type){
+		case ('P'):
+			return pawnMove(pr, pc, tr, tc);
+			passant = false;
+		case('R'):
+			return rookMove(pr, pc, tr, tc);
+		case('B'):
+			return bishMove(pr, pc, tr, tc);
+		case('Q'):
+			return quenMove(pr, pc, tr, tc);
+		case('N'):
+			return nihtMove(pr, pc, tr, tc);
+		case('K'):
+			return kingMove(pr, pc, tr, tc);
+	}
+	return false;
+}
 bool Piece::pawnMove(int piece_r, int piece_c, int to_r, int to_c){
 	//Sadly, until turn based piece rules are checked,
 	//pawns are only checked to move 1 at a time.
 
-	std::cout << "4"; system("pause");
 	if( abs(piece_r - to_r) > 0 && abs(piece_r - to_r) <= 1 )
 		return true;
 	else return false;
